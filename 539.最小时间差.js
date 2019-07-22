@@ -17,39 +17,33 @@
 
 var findMinDifference = function(timePoints) {
   let resArr = [];
-  let res = 1201;
-  for (let index = 0; index < timePoints.length; index++) {
-    const i = timePoints[index];
-    const difference = Number(i.replace(':', ''));
-
-    resArr.push(difference);
-    if (difference > 1200) {
-      resArr.push(difference - 2360);
-    }
-    
+  const len = timePoints.length;
+  
+  const getMinute = function([h, m]) {
+    h = Number(h);
+    m = Number(m);
+    return h * 60 + m;
   }
+  for (let index = 0; index < len; index++) {
+    const i = timePoints[index];
+    const difference = i.split(':');
+    const minute = getMinute(difference);
+    if(resArr.indexOf(minute) > -1) {
+        return 0;
+    };
+    resArr.push(minute);
+  }
+  let res = 24 * 60;
   console.log(resArr);
 
-  const getMinute = function(number) {
-    if (number < 0) {
-      number = Math.abs(number);
-      return -(Math.floor(number / 100) * 60 + (number % 100));
-    }
-    return Math.floor(number / 100) * 60 + (number % 100)
+  const sortArr = resArr.sort((a, b) => a - b);
+  const arr = [...sortArr, sortArr[0] + 60 * 24]
+  for (let index = 0; index < len; index++) {
+    res = Math.min(res, arr[index + 1] - arr[index])
   }
-  resArr.sort((a, b) => a - b).forEach((i, index, arr) => {
-    if (arr[index + 1] !== undefined) {
-      const diff = Math.abs(getMinute(arr[index + 1]) - getMinute(i));
-      if (diff === 1440) {
-        return;
-      }
-      res = Math.min(res, diff > 720 ? 1440 - diff : diff);
-    }
-  })
 
-  return Math.abs(res);
+  return res;
 };
-
 // console.log(findMinDifference(["23:59","00:00"]));
 // console.log(findMinDifference(["01:01","03:00", "23:59"]));
 // console.log(findMinDifference(["14:49","09:56","01:02"]));

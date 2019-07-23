@@ -17,7 +17,6 @@
 // 输入: 45
 // 输出: false
 
-
 /**
  * @param {number} n
  * @return {boolean}
@@ -26,18 +25,20 @@ var isPowerOfThree = function(n) {
   if (n <= 0) {
     return false;
   }
-  const a = n.toString(3).split('');
+  const a = n.toString(3).split("");
 
-  return a.reduce((pre, cur) => {
-    return pre + Number(cur);
-  }, 0) === 1;
+  return (
+    a.reduce((pre, cur) => {
+      return pre + Number(cur);
+    }, 0) === 1
+  );
 };
 
 var isPowerOfThree2 = function(n) {
   if (n < 1) {
-      return false;
+    return false;
   }
-  return (205891132094649 % n) === 0
+  return 205891132094649 % n === 0;
 };
 
 console.log(isPowerOfThree2(27));

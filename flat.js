@@ -6,3 +6,5 @@ function flat(arr) {
   }
   return arr;
 }
+
+exports.flat = flat;

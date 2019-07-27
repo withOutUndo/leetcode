@@ -1037,3 +1037,92 @@ var originalDigits = function(s) {
 
 
 
+
+
+## ARTS 第拾叁周（2019-07-28）
+
+### Algorithm
+
+leetCode 1. 两数之和
+
+  ``` javascript
+var twoSum = function(nums, target) {
+    const obj = {};
+
+    for (let index = 0; index < nums.length; index++) {
+      if (obj[target - nums[index]] >= 0) {
+        return [obj[target - nums[index]], index];
+      } else {
+        obj[nums[index]] = index;
+      }
+    }
+
+    return false;
+};
+  ```
+  遍历数组，把当前数的索引存起来，继续找到了两数之和为目标时返回结果。
+
+leetcode 503. 下一个更大元素II
+
+```javascript
+var nextGreaterElements = function(nums) {
+  let len = nums.length;
+  let res = new Array();
+  nums.push(...nums);
+  let i = 0;
+  let cacheNum = false;
+  while (res.length < len) {
+    if ((cacheNum ? nums[res.length] : nums[i]) < nums[i + 1]) {
+      res.push(nums[i + 1]);
+      cacheNum = false;
+      i = res.length;
+    } else {
+      cacheNum = true;
+      i++;
+    }
+    if (i > len * 2 - 1) {
+      res.push(-1);
+      i = res.length;
+      cacheNum = false;
+    }
+  }
+  
+  return res;
+};
+```
+暴力破解，往后面寻找，找不到就是-1，然后继续找下一个。
+
+leetcode 357. 计算各个位数不同的个数
+
+```javascript
+var countNumbersWithUniqueDigits = function(n) {
+    const arr = [9, 81];
+    const res = [1];
+    const maxRes = Math.min(10, n);
+    for(let i = 2; i < maxRes; i++) {
+        arr[i] = arr[i - 1] * (10 - i)
+    }
+    
+    for(let j = 1; j <= maxRes; j++) {
+        res[j] = res[j - 1] + arr[j - 1];
+    }
+
+    return res[n];
+};
+```
+一位数时有10个，两位数时有9*9种（第一位不能为0），依次类推，然后加起来。
+
+
+### Review
+
+[How it feels to learn JavaScript in 2016](https://medium.com/hackernoon/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f)
+* 文章讲的是在2016年的前端现状，一个一个名词跳出来。前端的东西越来越多。但是现在都9102年了，要学习的东西还多着呢，所以，保持一个学习的心。基础的东西一定要扎实。
+
+### Tip
+-- 学习vimtutor时学到一个新的操作。
+c[number]motion直接进入插入模式。
+
+
+### Share
+[公司不重视前端怎么办？](https://www.zhangxinxu.com/life/2019/07/company-ignore-fe/)。
+听君一席话，胜读十年书。说的就是这种吧。在抱怨之前，先提升自己能力。

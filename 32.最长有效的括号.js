@@ -8,6 +8,7 @@ var longestValidParentheses = function(s) {
   const obj = {
     "(": ")",
   };
+  let res = 0;
   for (let index = 0; index < arr.length; index++) {
     const element = arr[index];
     if (stack.length < 1) {
@@ -22,21 +23,16 @@ var longestValidParentheses = function(s) {
 
     if (obj[stackLast] === element) {
       stack.pop();
+      if (stack.length) {
+        res = Math.max(res, index - stack[stack.length - 1].i);
+      } else {
+        res = Math.max(res, index);
+      }
       continue;
     }
-  }
-  
-  if (!stack.length) {
-    return s.length;
-  }
-  // 把整个数组的长度放到栈里面
-  stack.push({s: '', i: s.length});
-  let res = stack[0].i;
-  for (let i = 1; i < stack.length; i++) {
-    res = Math.max(stack[i].i - stack[i - 1].i - 1, res);
   }
 
   return res;
 };
 
-console.log(longestValidParentheses("(()()()((())"));
+console.log(longestValidParentheses("(()()()((()))()"));

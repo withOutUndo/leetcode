@@ -4,32 +4,21 @@
  */
 var summaryRanges = function(nums) {
   const length = nums.length;
-  let stack = [];
+  let start = (end = nums[0]);
   let res = [];
 
-  const fn = (len, top, stack) => {
-    if (len === 1) {
-      return `${top}`;
+  for (let i = 1; i <= length; i++) {
+    if (nums[i] - 1 === nums[i - 1]) {
+      end = nums[i];
     } else {
-      return `${stack[0]}->${top}`;
+      if (start === end) {
+        res.push(`${start}`);
+      } else {
+        res.push(`${start}->${end}`);
+      }
+      start = end = nums[i];
     }
-  };
-
-  nums.forEach((i, index) => {
-    let len = stack.length;
-    const top = stack[len - 1];
-
-    if (len && i - top !== 1) {
-      res.push(fn(len, top, stack));
-      stack = [];
-    }
-    stack.push(i);
-    
-    if (index === length - 1) {
-      len = stack.length;
-      res.push(fn(len, i, stack));
-    }
-  });
+  }
   return res;
 };
 

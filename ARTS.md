@@ -1126,3 +1126,173 @@ c[number]motion直接进入插入模式。
 ### Share
 [公司不重视前端怎么办？](https://www.zhangxinxu.com/life/2019/07/company-ignore-fe/)。
 听君一席话，胜读十年书。说的就是这种吧。在抱怨之前，先提升自己能力。
+
+
+
+
+## ARTS 第拾肆周（2019-08-04）
+
+### Algorithm
+
+leetCode 20. 有效的括号
+
+  ``` javascript
+var isValid = function(s) {
+  const arr = s.split("");
+  const stack = [];
+  const obj = {
+    "(": ")",
+    "[": "]",
+    "{": "}"
+  };
+  for (let index = 0; index < arr.length; index++) {
+    const element = arr[index];
+    const stackLast = stack[stack.length - 1];
+    if (stack.length < 1 || obj[stackLast] !== element) {
+      stack.push(element);
+    }
+
+    if (obj[stackLast] === element) {
+      stack.pop();
+    }
+  }
+
+  if (stack.length) {
+    return false;
+  }
+  return true;
+};
+  ```
+  使用栈，与栈顶匹配的就出栈。最后栈里还有数据的话，就不是有效的。
+
+leetcode 739. 每日温度
+
+```javascript
+var dailyTemperatures = function(T) {
+    
+  let len = T.length;
+  const res = [];
+  let i = 0;
+  let cacheCount = 0;
+  let currentT = 0;
+
+  while(res.length < len) {
+    if (T[i + 1] > (cacheCount ? currentT : T[i])) {
+      res.push(cacheCount + 1);
+      cacheCount = 0;
+      i = res.length;
+      currentT = 0;
+    } else {
+      currentT = currentT || T[i];
+      cacheCount++;
+      i++;
+    }
+
+    if (i > len) {
+      res.push(0);
+      cacheCount = 0;
+      i = res.length;
+      currentT = 0;
+    }
+  };
+
+  return res;
+};
+```
+暴力破解，往后面寻找。
+
+leetcode 394. 字符串解码
+
+```javascript
+var decodeString = function(s) {
+  if (!s) {
+    return '';
+  }
+  let stack = [];
+  // 记录栈顶顶类型
+  let stackTopType = "";
+
+  s.split("").forEach((i) => {
+    console.log(i);
+    console.log(stack);
+    let len = stack.length;
+    if (!isNaN(i)) {
+      if (len && stackTopType === "number") {
+        stack[len - 1] += i;
+        return;
+      }
+      stack.push(i);
+      stackTopType = "number";
+    } else if (i === "]") {
+      let str = stack.pop();
+      stack.pop();
+      let num = stack.pop();
+      // 把数字和字母乘起来
+      let res = ''
+      for (let index = 0; index < Number(num); index++) {
+        res += str;
+      }
+      // 如果栈里面有数据。那么把字符串和栈顶顶数据连起来
+      if (len > 3 && stack[len - 4] !== '[') {
+        stack[len - 4] += res;
+        return;
+      }
+      stack.push(res);
+    } else if (i === "[") {
+      stack.push('[');
+      stackTopType = '[';
+    } else {
+      if (len && stackTopType === "string") {
+        stack[len - 1] += i;
+        return;
+      }
+      stack.push(i);
+      stackTopType = "string";
+    }
+
+  });
+
+  return stack[0];
+};
+```
+使用栈，判断栈顶元素的类型，看情况修改栈顶元素。
+
+
+
+leetcode 228. 汇总区间
+
+```javascript
+var summaryRanges = function(nums) {
+  const length = nums.length;
+  let start = (end = nums[0]);
+  let res = [];
+
+  for (let i = 1; i <= length; i++) {
+    if (nums[i] - 1 === nums[i - 1]) {
+      end = nums[i];
+    } else {
+      if (start === end) {
+        res.push(`${start}`);
+      } else {
+        res.push(`${start}->${end}`);
+      }
+      start = end = nums[i];
+    }
+  }
+  return res;
+};
+```
+遍历一遍，两个变量暂时存储起来。
+
+
+### Review
+
+[Avoiding those dang cannot read property of undefined errors](https://css-tricks.com/%e2%80%8b%e2%80%8bavoiding-those-dang-cannot-read-property-of-undefined-errors/)
+* 处理在js中“空指针”问题。几种解决方案的对比。最后在评论区的一个回答[一行代码解决](https://github.com/burakcan/mb)，感觉很神奇。
+
+### Tip
+-- 巧用margin负值。处理列表元素依次排列，大的边框以及里面元素都有边框的问题。
+
+
+### Share
+-- 割

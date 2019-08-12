@@ -1296,3 +1296,52 @@ var summaryRanges = function(nums) {
 
 ### Share
 -- 割
+
+## ARTS 第拾伍周（2019-08-11）
+
+### Algorithm
+
+leetCode 560. 和为K的子数组
+
+  ``` javascript
+var subarraySum = function(nums, k) {
+  const length = nums.length;
+  let res = 0;
+  // 第0位置为0；确保dp[i]===k的数据
+  let dp = [0];
+  let cache = {};
+
+  for (let i = 1; i <= length; i++) {
+    dp[i] = (dp[i - 1] || 0) + nums[i - 1];
+  }
+
+  for (let index = 0; index < dp.length; index++) {
+    if (cache[dp[index] - k]) {
+      res += cache[dp[index] - k];
+    }
+    cache[dp[index]] = (cache[dp[index]] || 0) + 1;
+  }
+
+  return res;
+};
+  ```
+  借鉴了别人的思路，先累加和。然后在遍历和的数组。差值为K的就是满足的答案。
+
+
+
+### Review
+
+[Everything you need to know about change detection in Angular](https://blog.angularindepth.com/everything-you-need-to-know-about-change-detection-in-angular-8006c51d206f)
+* Angular中变更检测的一些相关知识，看了还是不太理解。
+
+### Tip
+-- Cordova插件与Js的通信。多次传输信息。
+``` java
+  PluginResult r = new PluginResult(PluginResult.Status.OK, jo);
+  r.setKeepCallback(true);
+  callbackContext.sendPluginResult(r);
+```
+
+
+### Share
+-- 割

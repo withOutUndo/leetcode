@@ -1335,13 +1335,119 @@ var subarraySum = function(nums, k) {
 * Angular中变更检测的一些相关知识，看了还是不太理解。
 
 ### Tip
--- Cordova插件与Js的通信。多次传输信息。
+- Cordova插件与Js的通信。多次传输信息。
 ``` java
   PluginResult r = new PluginResult(PluginResult.Status.OK, jo);
   r.setKeepCallback(true);
   callbackContext.sendPluginResult(r);
 ```
 
+
+### Share
+-- 割
+
+## ARTS 第拾陆周（2019-08-17）
+
+### Algorithm
+
+leetCode 797.所有可能的路径
+
+  ``` javascript
+var allPathsSourceTarget = function(graph) {
+  const target = graph.length - 1;
+
+  let res = [];
+
+  const fn = (next, arr) => {
+    for (let index = 0; index < next.length; index++) {
+      const ele = next[index];
+      if (ele === target) {
+        res.push([...arr, ele]);
+        continue;
+      }
+
+      fn(graph[ele], [...arr, ele]);
+    }
+  };
+
+  fn(graph[0], [0]);
+
+  return res;
+};
+  ```
+  使用递归，把下一步可以走的点和，当前已经走过的路径传入。直到走到目标点，放到结果集当中。
+
+leetCode 17.电话号码的组合
+
+  ``` javascript
+var letterCombinations = function(digits) {
+  if (!digits) {
+    return [];
+  }
+  const length = digits.length;
+  let res = [];
+
+  const obj = {
+    "2": ["a", "b", "c"],
+    "3": ["d", "e", "f"],
+    "4": ["g", "h", "i"],
+    "5": ["j", "k", "l"],
+    "6": ["m", "n", "o"],
+    "7": ["p", "q", "r", "s"],
+    "8": ["t", "u", "v"],
+    "9": ["w", "x", "y", "z"]
+  };
+
+  const fn = (str, index) => {
+    if (index === length) {
+      res.push(str);
+      return;
+    }
+    let arr = obj[digits[index]];
+    for (let i = 0; i < arr.length; i++) {
+      const element = arr[i];
+      fn(str + element, index + 1);
+    }
+  };
+
+  fn("", 0);
+
+  return res;
+};
+  ```
+  使用递归，已经组成的字符串和下一个字符串传入，直到填满个数。
+
+leetCode 495.提莫攻击
+
+  ``` javascript
+var findPoisonedDuration = function(timeSeries, duration) {
+  const length = timeSeries.length;
+  if (length < 1) {
+    return 0;
+  }
+  let res = duration;
+
+  for (let index = 1; index < length; index++) {
+    const time = timeSeries[index] - timeSeries[index - 1];
+    res += Math.min(time, duration);
+  }
+
+  return res;
+};
+  ```
+  每次攻击的有效时间取到下次间隔的时间和毒持续时间的最小值。
+
+
+
+### Review
+
+[Learn JavaScript Closures in 6 Minutes](https://www.freecodecamp.org/news/learn-javascript-closures-in-n-minutes/)
+  - 第一，函数在JavaScript中为一等公民，可以赋值给变量，可以作为返回值。
+  - 闭包可以实现私有数据，内部函数可以访问外部函数的变量，即使外部函数生命周期执行完成。
+  - 函数柯里化。
+
+### Tip
+- 安卓9.0的Notification需要channelId();
 
 ### Share
 -- 割

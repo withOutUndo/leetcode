@@ -1,3 +1,10 @@
+<!--
+ * @Author: xuhuan
+ * @Date: 2019-08-21 14:04:42
+ * @LastEditors: xuhuan
+ * @LastEditTime: 2019-08-25 18:11:14
+ * @Description: 
+ -->
 ---
 title: ARTS 打卡记录
 date: 2019-05-04 09:34
@@ -1451,3 +1458,83 @@ var findPoisonedDuration = function(timeSeries, duration) {
 
 ### Share
 -- 割
+
+## ARTS 第拾柒周（2019-08-25）
+
+### Algorithm
+
+leetCode 318.最大单词长度乘积
+
+  ``` javascript
+var maxProduct = function(words) {
+  const length = words.length;
+  if (length < 2) {
+    return 0;
+  }
+  let res = 0;
+
+  const arr = words.map(i => {
+    let obj = {
+      length: i.length
+    }
+    for (let index = 0; index < i.length; index++) {
+      const element = i[index];
+      obj[element] = true;
+    }
+
+    return obj;
+  })
+
+  for (let i = 0; i < length-1; i++) {
+    
+    for (let j = i + 1; j < length; j++) {
+      let flag = true;
+      for (let k = 0; k < arr[j].length; k++) {
+        if (arr[i][words[j][k]]) {
+          flag = false;
+        }
+      }
+
+      if (flag) {
+        res = Math.max(res, arr[i].length * arr[j].length);
+      }
+    }
+    
+  }
+  
+  return res;
+};
+  ```
+  把数组每一个单词的字母记录下来。遇到两个单词字母没有相同的时候，算出乘积。取最大值。
+
+leetCode 633.平方数之和
+
+  ``` javascript
+var judgeSquareSum = function(c) {
+  let max = Math.sqrt(c) * Math.sqrt(0.5);
+
+  for (let i = 0; i <= max; i++) {
+    let j = Math.sqrt(c - i * i);
+    if (parseInt(j) === j) {
+      return true;
+    }
+  }
+  return false;
+};
+  ```
+  先算出最大值的范围，再递增寻找。
+
+
+### Review
+
+[10 Interview Questions Every JavaScript Developer Should Know](https://medium.com/javascript-scene/10-interview-questions-every-javascript-developer-should-know-6fa6bdf5ad95)
+  - 一些与JavaScript相关的概念介绍，以及面试时该按照哪些方面来回答。
+  - 不同的编程范式及其特点。
+  - 异步编程
+  - 双向数据绑定以及单项数据流
+
+### Tip
+- MacOS下fn + backspace = delete, fn + arrow right = end;
+
+### Share
+-- [可以根据swagger 文档生成客户端请求代码](http://editor.swagger.io/)。

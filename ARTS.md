@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-08-25 18:11:14
+ * @LastEditTime: 2019-09-04 16:54:36
  * @Description: 
  -->
 ---
@@ -1538,3 +1538,62 @@ var judgeSquareSum = function(c) {
 
 ### Share
 -- [可以根据swagger 文档生成客户端请求代码](http://editor.swagger.io/)。
+
+## ARTS 第拾捌周（2019-09-04）
+
+### Algorithm
+
+leetCode 162.寻找峰值
+
+  ``` javascript
+var findPeakElement = function(nums) {
+
+  const length = nums.length;
+  let top = -Infinity;
+  
+  for (let index = 0; index < length; index++) {
+    const i = nums[index];
+    if (i > top) {
+      top = i;
+    } else {
+      return index - 1;
+    }
+  }
+  return length - 1;
+};
+  ```
+  找到比top值小的值时，上一个index就是结果。
+
+
+### Review
+
+[RxJS Observable interop with Promises and Async-Await](https://medium.com/@benlesh/rxjs-observable-interop-with-promises-and-async-await-bebb05306875)
+  - RxJS的Observable、Promises和Async-Await组合拳，
+  - RxJS和Promise的相互转换
+  - 另一种订阅RxJS的方法`forEach`
+  ```javascript
+  interval(500).forEach((_, i) => console.log(i + 1));
+  ```
+
+### Tip
+- Angular中管道可已返回一个Observable，并使用async管道，就可以实现异步结果。
+``` javascript
+...
+  transform(value) {
+    return interval(300).pipe(
+      take(1),
+      map(() => {
+        ...
+        return str;
+      })
+    );
+  }
+...
+```
+
+``` html
+<span>{{id | customPipe | async}}</span>
+```
+
+### Share
+-- 割

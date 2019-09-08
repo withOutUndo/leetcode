@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-09-04 16:54:36
+ * @LastEditTime: 2019-09-07 12:17:44
  * @Description: 
  -->
 ---
@@ -1597,3 +1597,102 @@ var findPeakElement = function(nums) {
 
 ### Share
 -- 割
+
+## ARTS 第拾玖周（2019-09-07）
+
+### Algorithm
+
+leetCode 153.寻找旋转数组中的最小值
+
+  ``` javascript
+  var findMin = function(nums) {
+    let res = nums[0];
+    
+    for(let i = 1; i < nums.length; i++) {
+      if(nums[i] < res) {
+          return nums[i];
+      }
+    }
+    
+    return res;
+  };
+  ```
+  从第0位开始找，找到比0位小的数字就是结果。
+
+leetCode 42.接雨水
+
+  ``` javascript
+var trap = function(height) {
+  let arr = [];
+  let res = 0;
+
+  const fn = height => {
+    let arr = [];
+    let length = 0;
+    let sum = 0;
+    height.forEach(i => {
+      if (arr.length === 0 && i) {
+        arr.push(i);
+        return;
+      }
+      if (arr[0] > i) {
+        arr.push(i);
+        length++;
+        sum += i;
+        return;
+      }
+      if (arr[0] <= i) {
+        arr.push(i);
+        if (length) {
+          res = res + length * Math.min(arr[0], arr[length + 1]) - sum;
+        }
+        arr = [i];
+        length = 0;
+        sum = 0;
+        return;
+      }
+    });
+
+    return arr;
+  };
+
+  arr = fn(height);
+  fn(arr.reverse());
+
+  return res;
+};
+  ```
+  寻找能围起来接水的数组，找到大于等于数组第一个的时候就计算能接多少水。但是这样寻找的缺陷是最后的一段（第一个值大于后面的值）计算不出来，所以把剩余的数组倒过来，再一样计算一遍，得到答案。
+
+
+### Review
+
+[On The Subject Of Subjects (in RxJS)](https://medium.com/@benlesh/on-the-subject-of-subjects-in-rxjs-2b08b7198b93)
+  - Subject介于observer和observable之间。
+  - 中途错误会终止整个Subject，使用调度器（Rx.Scheduler）可以解决此问题。
+  - new Observable时，返回的函数会在unsbscribe时调用。
+  ```javascript
+  new Observable(obs => {
+    ...
+    return () => {console.log('log on unsubscribe')};
+  })
+  ```
+
+### Tip
+- 生成0-n的数组
+``` javascript
+  // 借鉴一个老哥的文章
+  function range(end) {
+    return Array.from({ length: end }, (_, index) => index);
+  }
+  function range2(end) {
+    Array.apply(null, new Array(end)).map( function (v, k) {
+      return k
+    })
+  }
+```
+
+- Array.map()只对非empty元素有效。
+
+### Share
+-- [Array.from()五个超好用对用途](https://juejin.im/post/5d66b019f265da03a715e5d7?utm_source=gold_browser_extension#heading-6) [原文在这](https://dmitripavlutin.com/javascript-array-from-applications/)

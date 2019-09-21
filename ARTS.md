@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-09-07 12:17:44
+ * @LastEditTime: 2019-09-15 13:35:59
  * @Description: 
  -->
 ---
@@ -1696,3 +1696,77 @@ var trap = function(height) {
 
 ### Share
 -- [Array.from()五个超好用对用途](https://juejin.im/post/5d66b019f265da03a715e5d7?utm_source=gold_browser_extension#heading-6) [原文在这](https://dmitripavlutin.com/javascript-array-from-applications/)
+
+## ARTS 第贰拾周（2019-09-15）
+
+### Algorithm
+
+leetCode 136.只出现一次的数字
+
+  ``` javascript
+  var singleNumber = function(nums) {
+      return nums.reduce((pre, cur) => pre ^ cur, 0)
+  };
+  ```
+  按位异或，最后剩下的数就是只有一次的数字。
+
+leetCode 540.有序数组中的单一元素
+
+  ``` javascript
+var singleNonDuplicate = function(nums) {
+  const length = nums.length;
+
+  for (let index = 0; index < length; index += 2) {
+    if (nums[index] !== nums[index + 1]) {
+      return nums[index];
+    }
+  }
+};
+  ```
+  从0开始和后一位对比，索引依次加2；不相等则就是结果。
+
+
+leetCode 64.最小路径和
+
+  ``` javascript
+var minPathSum = function(grid) {
+    let row = grid.length;
+    let col = grid[0].length;
+    for(let i = 0; i < row; i ++) {
+        for(let j = 0; j < col; j++) {
+            if(i === 0) {
+                grid[i][j] = grid[i][j] + (grid[i][j - 1] || 0);
+				continue;
+            }
+            if(j === 0) {
+                grid[i][j] = grid[i][j] + grid[i - 1][j];
+                continue;
+            }
+            grid[i][j] = grid[i][j] + Math.min(grid[i][j-1], grid[i - 1][j]);
+        }
+    }
+    
+    return grid[row-1][col - 1];
+};
+  ```
+  动态规划。
+
+
+### Review
+
+[How I went from newbie to Software Engineer in 9 months while working full time](https://medium.com/free-code-camp/how-i-went-from-newbie-to-software-engineer-in-9-months-while-working-full-time-460bd8485847)
+  - 一个老哥职业生涯改变，转行做程序员。
+  - 1.合理制定目标，按着目标规划前进。
+  - 2.我觉得还是要强大的自律性，坚持学习。
+
+### Tip
+flutter使用svg图标的一种方法
+  1. 在[这里](http://fluttericon.com/）上传自己准备好的svg图标，然后下载下来。
+  2. 把字体文件和dart文件放到项目内，并在pubspec.yaml中声明字体文件。
+  3. 在需要的地方引入下载文件中的dart文件，就可以了。
+  ``` dart
+  Icon(MyIcons.person)
+  ```
+
+### Share
+-- 割

@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-09-15 13:35:59
+ * @LastEditTime: 2019-09-21 23:08:52
  * @Description: 
  -->
 ---
@@ -1770,3 +1770,103 @@ flutter使用svg图标的一种方法
 
 ### Share
 -- 割
+
+
+
+## ARTS 第廿一周（2019-09-21）
+
+
+### Algorithm
+
+leetCode 167. 两数之和 II - 输入有序数组
+
+  ``` javascript
+var twoSum = function(numbers, target) {
+    const length = numbers.length;
+    let left = 0;
+    let right = length - 1;
+
+    while (left < right) {
+        let sum = numbers[left] + numbers[right];
+        if (sum === target) {
+          return [left + 1, right + 1];
+        }
+
+        if(sum > target) {
+          right -= 1;
+        } else {
+          left += 1;
+        }
+    }
+};
+  ```
+  从两边向内查找，大了就右向前移一位，小了左边向后移一位。
+
+leetCode 152. 乘积最大子序列
+
+  ``` javascript
+var maxProduct = function(nums) {
+  const length = nums.length;
+  let res = Number.MIN_SAFE_INTEGER;
+  let max = 1;
+  let min = 1;
+  for (let i = 0; i < length; i++) {
+    if (nums[i] < 0) {
+      let tep = max;
+      max = min;
+      min = tep;
+    }
+    max = Math.max(max * nums[i], nums[i]);
+    min = Math.min(min * nums[i], nums[i]);
+    res = Math.max(max, res);
+  }
+  return res;
+};
+  ```
+  如果是一个负数，最大会变最小，最小会变最大，所以交换位置。
+
+
+### Review
+
+[How to Setup a TypeScript + Node.js Project](https://khalilstemmler.com/blogs/typescript/node-starter-project/)
+  - 一个简单的教程：如何在nodejs项目中使用typescript。
+
+### Tip
+  [圆角梯形](https://wow.techbrood.com/fiddle/11693)
+  ``` html
+  <div id='cssmenu'>
+    <ul>
+        <li class='active'><a href='index.html'>Home</a>
+        </li>
+        <li><a href='#'>Products</a>
+        </li>
+        <li><a href='#'>About</a>
+        </li>
+        <li><a href='#'>Contact</a>
+        </li>
+    </ul>
+</div>
+  ```
+  ``` css
+  ...
+#cssmenu > ul > li > a:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    width: 100%;
+    height: 120%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    content: "";
+    transition: all 0.2s ease;
+    transform: perspective(5px) rotateX(2deg);
+    transform-origin: bottom;
+}
+...
+  ```
+
+
+### Share
+- 在Ionic3、Ionic4中使用svg图标。[这里](https://golb.hplar.ch/2018/01/Custom-SVG-icons-in-Ionic.html)

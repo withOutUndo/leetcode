@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-09-21 23:08:52
+ * @LastEditTime: 2019-09-28 15:33:40
  * @Description: 
  -->
 ---
@@ -1870,3 +1870,154 @@ var maxProduct = function(nums) {
 
 ### Share
 - 在Ionic3、Ionic4中使用svg图标。[这里](https://golb.hplar.ch/2018/01/Custom-SVG-icons-in-Ionic.html)
+
+
+## ARTS 第廿贰周（2019-09-28）
+
+
+### Algorithm
+
+leetCode 198. 打家劫舍
+
+  ``` javascript
+var rob = function(nums) {
+  if(!nums.length) {
+      return 0;
+  }
+  let dp = [nums[0]];
+  
+  for (let index = 1; index < nums.length; index++) {
+    const element = nums[index];
+    dp[index] = Math.max(element + (dp[index - 2] || 0), dp[index - 1]);
+  }
+  return dp[nums.length - 1];
+};
+  ```
+  动态规划。
+
+leetCode 213. 打家劫舍 II
+
+  ``` javascript
+var rob = function(nums) {
+  let len = nums.length;
+
+  if (!len) {
+    return 0;
+  }
+
+  let fn = (dp, len, start) => {
+    for (let index = start; index < len; index++) {
+      const element = nums[index];
+      dp[index] = Math.max(element + (dp[index - 2] || 0), dp[index - 1]);
+    }
+    return dp[len - 1] || dp[0];
+  };
+
+  let res1 = fn([nums[0], nums[0]], len - 1, 2);
+  let res2 = fn([0], len, 1);
+
+  return Math.max(res1, res2);
+};
+  ```
+  分为两种情况，选第一家和不选第一家。然后把两种情况分别求出来再取最大值。
+
+leetCode 650. 只有两个键的键盘
+
+  ``` javascript
+var minSteps = function(n) {
+  if (n === 1) {
+    return 0;
+  }
+  let flag = 2;
+  let res = 0;
+  while (flag <= Math.sqrt(n)) {
+    if (n % flag === 0) {
+      res += flag;
+      n = n / flag;
+      flag = 2;
+    } else {
+      flag++;
+    }
+  }
+
+  return res + n;
+};
+  ```
+  相当于分解因式，再相加。
+
+leetCode 322. 零钱兑换
+
+  ``` javascript
+var coinChange = function(coins, amount) {
+  if (amount < 1) {
+    return 0;
+  }
+  let dp = new Array(amount + 1).fill(amount + 1);
+  coins.map(i => (dp[i] = 1));
+
+  for (let i = 1; i < amount + 1; i++) {
+    coins.map(j => (dp[i] = Math.min(dp[i], dp[i - j] + 1 || dp[i])));
+  }
+  return dp[amount] === amount + 1 ? -1 : dp[amount];
+};
+  ```
+  动态规划，dp[amount] = db[amount - coins] + 1，每次都要遍历所有硬币。
+
+leetCode 1105. 填充书架
+
+  ``` javascript
+var minHeightShelves = function(books, shelf_width) {
+  let dp = [0];
+  const length = books.length;
+
+  for (let i = 1; i <= length; i++) {
+    let width = 0;
+    let height = 0;
+    let j = i;
+
+    while (0 < j) {
+      height = Math.max(height, books[j - 1][1]);
+      width += books[j - 1][0];
+      if (width > shelf_width) {
+        break;
+      }
+      dp[i] = Math.min(dp[j - 1] + height, dp[i] || Infinity);
+      j--;
+    }
+  }
+  return dp[length];
+};
+  ```
+  动态规划，放一本书的时候，一次把前面的书放到和自己一层来，不超过宽度的时候，拿到最小的高度。
+
+
+### Review
+
+[10 simple Linux tips which save 50% of my time in the command line](https://dev.to/javinpaul/10-simple-linux-tips-which-save-50-of-my-time-in-the-command-line-4moo)
+  - 文章中介绍了一些Linux中的关于命令行的知识或者说技巧。
+  - !{command}使用上一个相同命令的参数、!!重复上一个命令、 使用 tab 补全命令、 CRTRL+R搜索并匹配最后一个命令、使用管道符连接两个命令等...。
+
+### Tip
+  js-xsls 中的单元格合并
+  ```javascript
+  const worksheet: WorkSheet = XLSX_utils.aoa_to_sheet(arr);
+  worksheet['!merges'] = [
+    {
+      //合并第四行（C4）第三列到第五列
+      s: {
+        //s为开始
+        r: 0, //开始取值范围
+        c: 0 //开始列
+      },
+      e: {
+        //e结束
+        r: 0, //结束列
+        c: 4 //结束范围
+      }
+    },
+  ]
+  ```
+
+
+### Share
+- 割

@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-09-28 15:33:40
+ * @LastEditTime: 2019-10-05 23:54:47
  * @Description: 
  -->
 ---
@@ -2018,6 +2018,97 @@ var minHeightShelves = function(books, shelf_width) {
   ]
   ```
 
+
+### Share
+- 割
+
+## ARTS 第廿叁周（2019-10-05）
+
+
+### Algorithm
+
+leetCode 763.划分字母区间
+
+  ``` javascript
+var partitionLabels = function(S) {
+  let strObj = {};
+  let indexObj = {};
+  let res = [];
+
+  S.split("").forEach((i, index) => {
+    indexObj[index] = i;
+    if (!strObj[i]) {
+      strObj[i] = {};
+      strObj[i]["start"] = index;
+    }
+    strObj[i]["end"] = index;
+  });
+  tag = 0;
+  while (tag < S.length) {
+    let s = indexObj[tag];
+    let {start, end} = strObj[s];
+
+    for (let i = start; i < end; i++) {
+      const {end: e} = strObj[indexObj[i]];
+      if (end < e) {
+        end = e
+      }
+    }
+
+    res.push(end - start + 1);
+    tag = end + 1;
+  }
+
+  return res;
+};
+  ```
+  记录每一个字母的第一个和最后一个的索引和每一个位置的字母是多少。最后在遍历字符串从第一个字母的开始和结束为区间如果有结束索引大于当前的就更新结束的索引。直到遍历完成。
+
+leetCode 765.情侣牵手
+
+  ``` javascript
+var minSwapsCouples = function(row) {
+  let cacheObj = {};
+  for (let index = 0; index < row.length; index++) {
+    cacheObj[row[index]] = index;
+  }
+  let res = 0;
+  for (let i = 0; i < row.length; i += 2) {
+    let a = row[i];
+    let b = row[i + 1];
+    let x;
+
+    if (a % 2 === 0) {
+      x = a + 1;
+    } else {
+      x = a - 1;
+    }
+    if (x !== b) {
+      res++;
+      row[cacheObj[x]] = b;
+      cacheObj[b] = cacheObj[x];
+    }
+  }
+
+  return res;
+};
+  ```
+  遍历一遍数组，记录每一个值的位置，然后判断两个相邻位置是不是情侣，不是的话就交换。最后统计交换的次数。
+
+### Review
+
+[RxJS — Six Operators That you Must Know(https://netbasal.com/rxjs-six-operators-that-you-must-know-5ed3b6e238a0)
+  - `concat`在第一个Observable完成之后才会执行第二个。
+  - `forkJoin`所有的Observable完成之后返回一个结果数组。
+  - `mergeMap`外部的Observable触发内部，并返回内部的结果。
+  - `pairwise`返回一个结果数组，第一个元素为上一次发出的值。
+  - `switchMap`外部发出结果时，切换为内部数据流，外部充新发出值的时候又重新切换一个内部的数据流。
+  - `combineLatest`当任意一个发出值的时候组合所有Observable的最后一次结果的值。
+
+### Tip
+  - 模运算在计算一些有循环规律的时候有用处
+    - 计算星期几。天数模7就可以了。
+    - 打牌的时候谁先摸牌，就是点数模人数。/狗头。
 
 ### Share
 - 割

@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-10-05 23:54:47
+ * @LastEditTime: 2019-10-13 18:29:26
  * @Description: 
  -->
 ---
@@ -2097,7 +2097,7 @@ var minSwapsCouples = function(row) {
 
 ### Review
 
-[RxJS — Six Operators That you Must Know(https://netbasal.com/rxjs-six-operators-that-you-must-know-5ed3b6e238a0)
+[RxJS — Six Operators That you Must Know](https://netbasal.com/rxjs-six-operators-that-you-must-know-5ed3b6e238a0)
   - `concat`在第一个Observable完成之后才会执行第二个。
   - `forkJoin`所有的Observable完成之后返回一个结果数组。
   - `mergeMap`外部的Observable触发内部，并返回内部的结果。
@@ -2112,3 +2112,119 @@ var minSwapsCouples = function(row) {
 
 ### Share
 - 割
+
+
+## ARTS 第廿肆周（2019-10-13）
+
+
+### Algorithm
+
+leetCode 70.爬楼梯
+
+  ``` javascript
+var climbStairs = function(n) {
+  let a = 0;
+  let b = 1;
+  let res = 0;
+
+  for (let index = 0; index < n; index++) {
+    res = a + b;
+    a = b;
+    b = res;
+  }
+  
+  return res;
+};
+  ```
+  动态规划推导出类似斐波拉契数。第n个数是由n-1和n-2的结果加起来的。
+
+leetCode 11.盛水最多的容器
+
+  ``` javascript
+var maxArea = function(height) {
+  let max = 0;
+  obj = {};
+
+  height.forEach((i, index) => {
+    if (i > max) {
+      max = i;
+    }
+
+    if (obj[i]) {
+      obj[i]['right'] = Math.max(index, obj[i]['right']);
+      obj[i]['left'] = Math.min(index, obj[i]['left']);
+    } else {
+      obj[i] = {
+        left: index,
+        right: index
+      };
+    }
+  });
+
+  let minLeft = Infinity,
+    maxRight = 0;
+  let res = 0;
+  for (let index = max; index > 0; index--) {
+    if (obj[index]) {
+      const { left, right } = obj[index];
+      minLeft = Math.min(left, minLeft);
+      maxRight = Math.max(right, maxRight);
+
+      res = Math.max(res, (maxRight - minLeft) * index);
+    }
+  }
+
+  return res;
+};
+  ```
+  遍历数组找到每个数字的最左位置以及最右的位置。然后从最高的柱子往下，计算最左及最右的边界，计算面积，保存最大值。
+
+leetCode 781.森林中的兔子
+
+  ``` javascript
+var numRabbits = function(answers) {
+  res = 0;
+  let obj = {};
+  answers.map(i => {
+    if (i === 0 || !obj[i]) {
+      res = res + 1 + i;
+      obj[i] = 1;
+      return;
+    }
+    if (obj[i]) {
+      obj[i]++;
+      if (obj[i] === i + 1) {
+        obj[i] = null;
+      }
+    }
+  });
+  return res;
+};
+
+  ```
+  遍历数组，如果相同的数字出现的次数小于本身+1,（2出现的次数如果大于了 2+1 则重置obj[2]）。当数字i“新出现”的时候，res = res + 1 + i;
+### Review
+
+[The Best Way To Unsubscribe RxJS Observables In The Angular Applications!](https://blog.angularindepth.com/the-best-way-to-unsubscribe-rxjs-observable-in-the-angular-applications-d8f9aa42f6a0)
+  - 在Angular中取消Observable订阅的几种方式
+  - 首先讲到，没有取消订阅到Observable会造成内存泄漏，所以取消订阅是必须的
+  - 1.使用.unsubscribe()方法，2.利用RxJS的几个操作符：如takeUntil、take、takeWhile...，3.使用｜async管道符，会自动订阅，在组建销毁的时候自动取消订阅，4.使用NgRx（这个还不太了解）
+  - 总结，在工作中使用过前几种。算是复习一遍。NgRx还待学习。
+
+### Tip
+  - Angular中ng-container可以传入模版以及上下文对象
+    ``` html
+    <ng-template #tpl let-list="list" let-deep="deep">
+      ...
+    </ng-template>
+    <ng-container
+      *ngTemplateOutlet="
+        tpl;
+        context: { list: item.children, deep: deep + 1 }
+      "
+    ></ng-container>
+    ```
+### Share
+- 分享一句话：
+
+> 严于律己，宽以待人。

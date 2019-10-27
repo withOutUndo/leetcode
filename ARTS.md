@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-10-13 18:29:26
+ * @LastEditTime: 2019-10-20 13:16:49
  * @Description: 
  -->
 ---
@@ -2228,3 +2228,74 @@ var numRabbits = function(answers) {
 - 分享一句话：
 
 > 严于律己，宽以待人。
+
+
+
+## ARTS 第廿伍周（2019-10-20）
+
+
+### Algorithm
+
+leetCode 848.字母移位
+
+  ``` javascript
+var shiftingLetters = function(S, shifts) {
+  let sum = shifts.reduce((a, b) => a + b, 0);
+  let res = '';
+  const fn = (s, num) => {
+    return String.fromCharCode(((s.charCodeAt() - 97 + num) % 26) + 97);
+  };
+  for (let index = 0; index < shifts.length; index++) {
+    const s = S[index];
+    if (s) {
+      const num = shifts[index];
+      res += fn(s, sum);
+      sum -= num;
+    }
+  }
+
+  return res;
+};
+  ```
+  累加所有数字的和，每个数字需要变换的次数为和减去前面的数字。
+
+leetCode 8.字符串转换整数
+
+  ``` javascript
+var myAtoi = function(str) {
+    let num = parseInt(str)
+    if (isNaN(num)) {
+        return 0;
+    }
+    if (num >= 0) {
+        return Math.min(num, 2147483647);
+    }
+    if (num < 0) {
+        return Math.max(num, -2147483648);
+    }
+};
+  ```
+  javascript自带方法，判断最大最小。
+
+### Review
+
+[Understanding ViewChildren, ContentChildren, and QueryList in Angular](https://netbasal.com/understanding-viewchildren-contentchildren-and-querylist-in-angular-896b0c689f6e)
+  - @ViewChildren() 会返回页面中的子元素，可以是Component、Directive或者 native element，并且是一个QueryList。可以传入一个read参数ElementRef、ViewContainerRef。
+  @ContentChildren() 会返回页面的ng-content里面的元素。
+
+### Tip
+  - 使用rsync命令拷贝远端文件时排除指定文件。
+  ``` bash
+  rsync av -e ssh --exclude='*.out' /path/to/source/ user@hostB:/path/to/dest/
+  ```
+    1. `-a`: 递归到目录，即复制所有文件和子目录。另外，打开归档模式和所有其他选项（相当于 `-rlptgoD`）
+    2. `-v`: 详细输出
+    3. `-e ssh`: 使用ssh作为远程shell，这样所有的东西都被加密
+    4. `--exclude='*.out'`: 排除匹配模式的文件，例如 *.out 或 *.c 等。
+
+  参考：[如何使用 rsync 命令排除文件](https://linux.cn/article-9292-1.html)
+
+### Share
+- [巧用 Swagger 在线编辑器生成前端接口代码](https://juejin.im/post/5b3849c2f265da597901e9da);
+
+根据swagger文档生成前端可用的请求代码。

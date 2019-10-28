@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-10-20 13:16:49
+ * @LastEditTime: 2019-10-27 19:53:55
  * @Description: 
  -->
 ---
@@ -2299,3 +2299,99 @@ var myAtoi = function(str) {
 - [巧用 Swagger 在线编辑器生成前端接口代码](https://juejin.im/post/5b3849c2f265da597901e9da);
 
 根据swagger文档生成前端可用的请求代码。
+
+
+
+## ARTS 第廿陆周（2019-10-27）
+
+
+### Algorithm
+
+leetCode 155.最小栈
+
+  ``` javascript
+  /**
+  * initialize your data structure here.
+  */
+  var MinStack = function() {
+      this.data = [];
+      this.min = null;
+      this.length = 0;
+  };
+
+  /** 
+  * @param {number} x
+  * @return {void}
+  */
+  MinStack.prototype.push = function(x) {
+      this.data.push(x);
+      this.length += 1;
+      this.min = this.min === null ? x : Math.min(this.min, x);
+  };
+
+  /**
+  * @return {void}
+  */
+  MinStack.prototype.pop = function() {
+      const x = this.data.pop();
+      this.length -= 1;
+      if (x === this.min) {
+          this.min = Math.min(...this.data);
+      }
+  };
+
+  /**
+  * @return {number}
+  */
+  MinStack.prototype.top = function() {
+      return this.data[this.length - 1];
+  };
+
+  /**
+  * @return {number}
+  */
+  MinStack.prototype.getMin = function() {
+      return this.min;
+  };
+
+  ```
+  使用数组保存数据，手动记录length以及最小值。
+
+leetCode 921. 使括号有效的最少添加
+
+  ``` javascript
+  /**
+  * @param {string} S
+  * @return {number}
+  */
+  var minAddToMakeValid = function(S) {
+      let stack = [];
+
+      for (let i = 0; i < S.length; i++) {
+          let z = S[i];
+          if (stack.length === 0 || z === '(') {
+              stack.push(z);
+          } else if (z === ')' && stack[stack.length - 1] === '(') {
+              stack.pop();
+          } else {
+              stack.push(z);
+          }
+      }
+
+      return stack.length;
+  };
+  ```
+  使用栈，相当于括号匹配，最后栈里面的个数就是解。
+
+### Review
+
+[An Animated Intro to RxJS](https://css-tricks.com/animated-intro-rxjs/)
+  - 介绍一些操作符的同时，使用他们实现了一个动画。
+  - 想法很重要，如何组合起来实现一个复杂的效果。
+
+### Tip
+  - 最近一周使用Ionic打包都用问题，今天应该是解决了，主要问题就是依赖关系，下载的包不匹配就会打包失败或者干不起，😣。
+
+### Share
+- [Angular Input和Output](https://semlinker.com/ng-input-and-output/);
+  Angular中使用Input和Output可以实现简单的双向绑定。

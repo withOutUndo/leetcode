@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-11-03 11:13:43
+ * @LastEditTime: 2019-11-09 19:42:54
  * @Description:
  -->
 
@@ -2605,3 +2605,89 @@ export class OtherModule {}
 
 - [Ranger](https://semlinker.com/ng-input-and-output/);
   一个在可以在终端使用的文件浏览器。使用类似 vim 的操作方式。
+
+## ARTS 第廿捌周（2019-11-09）
+
+### Algorithm
+
+leetCode 34. 在排序数组中查找元素的第一个和最后一个位置
+
+```javascript
+var searchRange = function(nums, target) {
+  let res = [-1, -1];
+
+  for (let i = 0; i < nums.length; i++) {
+    let n = nums[i];
+    if (n > target) {
+      return res;
+    }
+    if (target === n) {
+      if (res[0] === -1) {
+        res[0] = i;
+      }
+      res[1] = i;
+    }
+  }
+  return res;
+};
+```
+
+遍历数组，遇到相等的值就更新结果，遇到更大的数据就返回结果。
+
+### Review
+
+[Level up your .sort game](https://css-tricks.com/level-up-your-sort-game/)
+
+- 介绍了 JS 中 sort 函数。
+- 利用函数式编程的特性，升级 sort 函数。
+- map()、filter()、闭包组合拳，眼花缭乱。
+
+### Tip
+
+- 一个 split 引发的 bug。
+  在项目中，一个图片上传的地方，判断是否已经上传。
+
+```Typescript
+if(model.imgs.split(',').length !== this.imgs) {
+  ...
+}
+```
+
+项目中的效果为，多张照片完全没问题，但是在一张照片时，
+
+```Typescript
+''.split(',')  // ['']
+```
+
+所以啊，还是基础功不够扎实。
+
+### Share
+
+- tree to array
+  项目中一个组织机构树的下拉框，需要转换为数组。关键代码如下：
+
+```Typescript
+dfsTree(arr): Array<any> {
+  let stack = [];
+  let res = [];
+  let fn = (arr = []) => {
+    arr.reverse().forEach(i => {
+      stack.push(i);
+    });
+  };
+  fn(arr);
+  while (stack.length) {
+    const item = stack.pop();
+    res.push({
+      title: `${'————————'.slice(0, item.level - 1)}${item.title}`,
+      key: item.key
+    });
+    if (item.children) {
+      fn(item.children);
+    }
+  }
+
+  return res;
+}
+```
+从栈顶拿出数据时，把对应的子节点放入栈。

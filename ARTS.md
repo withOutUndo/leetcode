@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-11-09 19:42:54
+ * @LastEditTime: 2019-11-17 00:35:55
  * @Description:
  -->
 
@@ -72,40 +72,38 @@ leetCode 977. 有序数组的平方
   也能出结果。后来参考了别人的思路以及实现有了第二种写法
 
   ```javascript
-    var sortedSquares = function(A) {
-        let index = 0;
+  var sortedSquares = function(A) {
+    let index = 0;
 
-        while(A[index] < 0)
-        index ++;
-        var i = index - 1;
-        var j = index;
-        var len = A.length;
-        A = A.map(i => i\*\*2);
-        var res = [];
+    while (A[index] < 0) index++;
+    var i = index - 1;
+    var j = index;
+    var len = A.length;
+    A = A.map(i => ii\ * \ * 2);
+    var res = [];
 
-        while(i >= 0 && j < len) {
-            if(A[i] >= A[j]) {
-                res.push(A[j]);
-                j++;
-            } else {
-                res.push(A[i]);
-                i--;
-            }
-        }
+    while (i >= 0 && j < len) {
+      if (A[i] >= A[j]) {
+        res.push(A[j]);
+        j++;
+      } else {
+        res.push(A[i]);
+        i--;
+      }
+    }
 
-        while(j< len) {
-            res.push(A[j]);
-            j++;
-        }
+    while (j < len) {
+      res.push(A[j]);
+      j++;
+    }
 
-        while(i>= 0) {
-            res.push(A[i]);
-            i--;
-        }
+    while (i >= 0) {
+      res.push(A[i]);
+      i--;
+    }
 
-        return res;
-    };
-
+    return res;
+  };
   ```
 
   思路就是找到距离 0 最近的一个位置。分别向两边查找，再插入结果数组
@@ -2690,4 +2688,148 @@ dfsTree(arr): Array<any> {
   return res;
 }
 ```
+
 从栈顶拿出数据时，把对应的子节点放入栈。
+
+## ARTS 第廿玖周（2019-11-16）
+
+### Algorithm
+
+leetCode 849. 到最近的人的最大距离
+
+```javascript
+var maxDistToClosest = function(seats) {
+  let flag = -1;
+  let max = {
+    index: 0,
+    count: 0
+  };
+  let obj = {};
+  seats.forEach((i, index) => {
+    if (i === 0) {
+      if (flag >= 0) {
+        obj[flag] += 1;
+      } else {
+        obj[index] = 1;
+        flag = index;
+      }
+    } else {
+      if (flag > 0 && obj[flag] > max.count) {
+        max = {
+          index: flag,
+          count: obj[flag]
+        };
+      }
+      if (flag === 0) {
+        max = {
+          index: flag,
+          count: obj[flag] * 2 - 1
+        };
+      }
+      flag = -1;
+    }
+  });
+  if (flag >= 0 && obj[flag] * 2 - 1 > max.count) {
+    max = {
+      index: flag,
+      count: obj[flag] * 2 - 1
+    };
+  }
+
+  return Math.floor((max.count - 1) / 2) + 1;
+};
+```
+遍历数组，记录连续0的开始索引和个数，处理开始结尾为0的情况。最后使用最大值计算结果。
+
+
+
+leetCode 1222. 可以攻击国王的皇后
+
+```javascript
+var queensAttacktheKing = function(queens, king) {
+  let res = [];
+  let obj = {};
+  let [x, y] = king;
+  queens.forEach(i => {
+    obj[i.join("_")] = true;
+  });
+
+  let fn = i => (x, y) => {
+    if (!i && obj[`${x}_${y}`]) {
+      res.push([x, y]);
+      i = true;
+    }
+  };
+
+  let fn1 = fn();
+  let fn2 = fn();
+  let fn3 = fn();
+  let fn4 = fn();
+  let fn5 = fn();
+  let fn6 = fn();
+  let fn7 = fn();
+  let fn8 = fn();
+
+  for (let i = 1; i < 8; i++) {
+    fn1(x, y + i);
+    if (i <= 7 - x) {
+      fn2(x + i, y + i);
+      fn3(x + i, y);
+    }
+    if (y >= i) {
+      fn5(x, y - i);
+      fn8(x + i, y - i);
+    }
+    if (x >= i) {
+      fn4(x - i, y);
+      fn6(x - i, y - i);
+      fn7(x - i, y + i);
+    }
+  }
+
+  return res;
+};
+```
+暴力破解，从国王的索引往四周增加。判断输入的王后相等的，就放入结果集。
+
+leetCode 55. 跳跃游戏
+
+``` javascript
+var canJump = function(nums) {
+  let length = nums.length;
+  let dp = [];
+  dp[length - 1] = true;
+
+  for (let index = length - 2; index > -1 ; index--) {
+    let n = nums[index];
+
+    while (n > 0) {
+      if (dp[Math.min(n + index, length - 1)]) {
+        dp[index] = true;
+        break;
+      }
+      n--;
+    }
+  }
+
+  return dp[0] === true;
+};
+```
+
+从最后往前跳，如果前面的能够跳到一个为true的数，那个这个位置就是true。
+
+### Review
+
+[A Practical Guide to Regular Expressions (RegEx) In JavaScript](https://blog.bitsrc.io/a-beginners-guide-to-regular-expressions-regex-in-javascript-9c58feb27eb4)
+
+- 介绍了 JS 中 一些正则的基本单元。
+- 正则不易，多加联系。
+
+### Tip
+
+- 在Angular使用Service + Rxjs实现简单的共享数据。
+在Service中声明Subject。在其他组件中订阅或者发送数据。
+
+### Share
+- [[孙笑川] 懒狗圣经 剪辑版](https://www.bilibili.com/video/av33499174/)
+  都是懒狗。

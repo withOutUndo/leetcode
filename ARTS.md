@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-11-17 00:35:55
+ * @LastEditTime: 2019-11-24 13:13:02
  * @Description:
  -->
 
@@ -2833,3 +2833,72 @@ var canJump = function(nums) {
 ### Share
 - [[孙笑川] 懒狗圣经 剪辑版](https://www.bilibili.com/video/av33499174/)
   都是懒狗。
+
+
+## ARTS 第三十周（2019-11-24）
+
+### Algorithm
+
+leetCode 504.7进制数
+
+```javascript
+var convertToBase7 = function(num) {
+    let arr = [];
+    let before = '';
+    if(num < 0) {
+        before = '-'
+        num = -num;
+    }
+    while(num >= 7) {
+        arr.push(num % 7);
+        num = Math.floor(num / 7);
+    }
+    arr.push(num);
+    return before + arr.reverse().join('');
+};
+```
+判断正负，然后按照二进制的思路，除商求余，在倒过来。
+
+
+
+leetCode 165.比较版本号
+
+```javascript
+var compareVersion = function(version1, version2) {
+    let getArr = str => str.split('.').map(Number);
+    let index = 0;
+    version1 = getArr(version1);
+    version2 = getArr(version2);
+    let maxIndex = Math.max(version1.length, version2.length)
+
+    while(index <= maxIndex) {
+        let a = version1[index] || 0;
+        let b = version2[index] || 0;
+        if (a > b) {
+            return 1;
+        }
+        if (a < b) {
+            return -1;
+        }
+        index++;
+    }
+
+    return 0;
+};
+```
+从第一位开始，转换为数值，进行比较。
+
+### Review
+
+[Comparing the Different Types of Native JavaScript Popups](https://css-tricks.com/comparing-the-different-types-of-native-javascript-popups/)
+
+- 介绍浏览器原生的几种弹框。
+- 但是在项目中并不会使用，大多使用UI库的组件。
+
+### Tip
+
+- 割
+
+### Share
+- [Arch wiki](https://wiki.archlinux.org/);
+- 当然，如果安装失败，请选择Manjaro。

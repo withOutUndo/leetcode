@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-11-24 13:13:02
+ * @LastEditTime: 2019-11-30 18:34:20
  * @Description:
  -->
 
@@ -79,7 +79,7 @@ leetCode 977. 有序数组的平方
     var i = index - 1;
     var j = index;
     var len = A.length;
-    A = A.map(i => ii\ * \ * 2);
+    A = A.map(i => iiiiiiii\ * \ * 2);
     var res = [];
 
     while (i >= 0 && j < len) {
@@ -404,67 +404,57 @@ leetCode 16. 最接近的三数之和
 
 - 学习了题解当中的思路，双指针。从两头往中间找。
 
-  ```javascript
-    var threeSumClosest = function(nums = [], target) {
-        const len = nums.length;
-        let diff = 99999;
-        let result = 0;
+```javascript
+var threeSumClosest = function(nums = [], target) {
+  const len = nums.length;
+  let diff = 99999;
+  let result = 0;
 
-        nums = nums.sort((a,b) => a-b);
+  nums = nums.sort((a, b) => a - b);
 
-        for (let index = 0; index < len - 2; index++) {
-            let res = nums[index];
-            let l = index + 1;
-            let m = len - 1;
+  for (let index = 0; index < len - 2; index++) {
+    let res = nums[index];
+    let l = index + 1;
+    let m = len - 1;
 
-            while (l<m) {
-                res = nums[index] + nums[l] + nums[m];
-                let a = Math.abs(target-res);
-                if (a < diff) {
-                    diff = a;
-                    result = res;
-                }
-                if (res > target) {
-                    m--;
-                }
-                if (res < target) {
-                    l++;
-                }
-                if (res === target) {
-                    return res;
-                }
+    while (l < m) {
+      res = nums[index] + nums[l] + nums[m];
+      let a = Math.abs(target - res);
+      if (a < diff) {
+        diff = a;
+        result = res;
+      }
+      if (res > target) {
+        m--;
+      }
+      if (res < target) {
+        l++;
+      }
+      if (res === target) {
+        return res;
+      }
+    }
+  }
+  return result;
+};
+```
 
-            }
-
-  ```
-
-
-        }
-        return result;
-    };
-
-````
 先排序，确定一个数的位置，剩下的两个位置从两边填，向中间靠拢。记录他们的差距，遇到更小的就记录下来。
-
-
 
 ### Review
 
 [Everything You Need to Know About Date in JavaScript](https://css-tricks.com/everything-you-need-to-know-about-date-in-javascript/)
-* 关于Date对象的一些细节的知识。
+
+- 关于 Date 对象的一些细节的知识。
 
 ### Tip
 
-* Lodop
-一个打印的插件，js很方便的调用。
+- Lodop
+  一个打印的插件，js 很方便的调用。
 
 ### Share
+
 --割
-
-
-
-
-
 
 ## ARTS 第捌周（2019-06-23）
 
@@ -473,47 +463,45 @@ leetCode 16. 最接近的三数之和
 leetCode 84. 柱状图中最大的矩形
 
 - 暴力破解
-``` javascript
 
-  var largestRectangleArea = function(heights) {
-      const len = heights.length;
+```javascript
+var largestRectangleArea = function(heights) {
+  const len = heights.length;
 
-      const getWidth = (i, index, arr) => {
-          let l = index;
-          let m = index;
+  const getWidth = (i, index, arr) => {
+    let l = index;
+    let m = index;
 
-          while(l>=0) {
-              if(arr[l] >= i) {
-                  l--;
-              } else {
-                  break;
-              }
-          }
+    while (l >= 0) {
+      if (arr[l] >= i) {
+        l--;
+      } else {
+        break;
+      }
+    }
 
-          while(m<=len-1) {
-              if(arr[m] >= i) {
-                  m++
-              } else {
-                  break;
-              }
-          }
+    while (m <= len - 1) {
+      if (arr[m] >= i) {
+        m++;
+      } else {
+        break;
+      }
+    }
 
-          return m - l - 1;
-      };
-      let res = 0;
-
-      heights.map((i, index) => {
-
-          const width = getWidth(i, index, heights);
-          const rectArea = width * i;
-          if (rectArea > res) {
-              res = rectArea;
-          }
-      })
-      return res;
-
+    return m - l - 1;
   };
-````
+  let res = 0;
+
+  heights.map((i, index) => {
+    const width = getWidth(i, index, heights);
+    const rectArea = width * i;
+    if (rectArea > res) {
+      res = rectArea;
+    }
+  });
+  return res;
+};
+```
 
 遍历数组，往两边查找，遇到比自己小的为止，从而找到宽度，最终把最大的结果保留下来。
 
@@ -2739,9 +2727,8 @@ var maxDistToClosest = function(seats) {
   return Math.floor((max.count - 1) / 2) + 1;
 };
 ```
-遍历数组，记录连续0的开始索引和个数，处理开始结尾为0的情况。最后使用最大值计算结果。
 
-
+遍历数组，记录连续 0 的开始索引和个数，处理开始结尾为 0 的情况。最后使用最大值计算结果。
 
 leetCode 1222. 可以攻击国王的皇后
 
@@ -2790,17 +2777,18 @@ var queensAttacktheKing = function(queens, king) {
   return res;
 };
 ```
+
 暴力破解，从国王的索引往四周增加。判断输入的王后相等的，就放入结果集。
 
 leetCode 55. 跳跃游戏
 
-``` javascript
+```javascript
 var canJump = function(nums) {
   let length = nums.length;
   let dp = [];
   dp[length - 1] = true;
 
-  for (let index = length - 2; index > -1 ; index--) {
+  for (let index = length - 2; index > -1; index--) {
     let n = nums[index];
 
     while (n > 0) {
@@ -2816,7 +2804,7 @@ var canJump = function(nums) {
 };
 ```
 
-从最后往前跳，如果前面的能够跳到一个为true的数，那个这个位置就是true。
+从最后往前跳，如果前面的能够跳到一个为 true 的数，那个这个位置就是 true。
 
 ### Review
 
@@ -2827,65 +2815,65 @@ var canJump = function(nums) {
 
 ### Tip
 
-- 在Angular使用Service + Rxjs实现简单的共享数据。
-在Service中声明Subject。在其他组件中订阅或者发送数据。
+- 在 Angular 使用 Service + Rxjs 实现简单的共享数据。
+  在 Service 中声明 Subject。在其他组件中订阅或者发送数据。
 
 ### Share
+
 - [[孙笑川] 懒狗圣经 剪辑版](https://www.bilibili.com/video/av33499174/)
   都是懒狗。
-
 
 ## ARTS 第三十周（2019-11-24）
 
 ### Algorithm
 
-leetCode 504.7进制数
+leetCode 504.7 进制数
 
 ```javascript
 var convertToBase7 = function(num) {
-    let arr = [];
-    let before = '';
-    if(num < 0) {
-        before = '-'
-        num = -num;
-    }
-    while(num >= 7) {
-        arr.push(num % 7);
-        num = Math.floor(num / 7);
-    }
-    arr.push(num);
-    return before + arr.reverse().join('');
+  let arr = [];
+  let before = "";
+  if (num < 0) {
+    before = "-";
+    num = -num;
+  }
+  while (num >= 7) {
+    arr.push(num % 7);
+    num = Math.floor(num / 7);
+  }
+  arr.push(num);
+  return before + arr.reverse().join("");
 };
 ```
+
 判断正负，然后按照二进制的思路，除商求余，在倒过来。
-
-
 
 leetCode 165.比较版本号
 
 ```javascript
 var compareVersion = function(version1, version2) {
-    let getArr = str => str.split('.').map(Number);
-    let index = 0;
-    version1 = getArr(version1);
-    version2 = getArr(version2);
-    let maxIndex = Math.max(version1.length, version2.length)
+  let getArr = str => str.split(".").map(Number);
+  let index = 0;
+  version1 = getArr(version1);
+  version2 = getArr(version2);
+  let maxIndex = Math.max(version1.length, version2.length);
 
-    while(index <= maxIndex) {
-        let a = version1[index] || 0;
-        let b = version2[index] || 0;
-        if (a > b) {
-            return 1;
-        }
-        if (a < b) {
-            return -1;
-        }
-        index++;
+  while (index <= maxIndex) {
+    let a = version1[index] || 0;
+    let b = version2[index] || 0;
+    if (a > b) {
+      return 1;
     }
+    if (a < b) {
+      return -1;
+    }
+    index++;
+  }
 
-    return 0;
+  return 0;
 };
 ```
+
 从第一位开始，转换为数值，进行比较。
 
 ### Review
@@ -2893,12 +2881,73 @@ var compareVersion = function(version1, version2) {
 [Comparing the Different Types of Native JavaScript Popups](https://css-tricks.com/comparing-the-different-types-of-native-javascript-popups/)
 
 - 介绍浏览器原生的几种弹框。
-- 但是在项目中并不会使用，大多使用UI库的组件。
+- 但是在项目中并不会使用，大多使用 UI 库的组件。
 
 ### Tip
 
 - 割
 
 ### Share
+
 - [Arch wiki](https://wiki.archlinux.org/);
-- 当然，如果安装失败，请选择Manjaro。
+- 当然，如果安装失败，请选择 Manjaro。
+
+## ARTS 第卅壹周（2019-11-30）
+
+### Algorithm
+
+leetCode 729. 我的日程安排表 I
+
+```javascript
+var MyCalendar = function() {
+  this.bookObj = {};
+  this.bookArr = [];
+};
+
+/**
+ * @param {number} start
+ * @param {number} end
+ * @return {boolean}
+ */
+MyCalendar.prototype.book = function(start, end) {
+  for (let i = 0; i < this.bookArr.length; i++) {
+    let s = this.bookArr[i];
+    let e = this.bookObj[s];
+    if (s >= end || start >= e) {
+    } else {
+      return false;
+    }
+  }
+  this.bookArr.push(start);
+  this.bookObj[start] = end;
+  return true;
+};
+```
+
+用数组存起来，往里面新增的时候判断是否被占用，没有的话就记录起来。
+
+### Review
+
+[The Power (and Fun) of Scope with CSS Custom Properties](https://css-tricks.com/the-power-and-fun-of-scope-with-css-custom-properties/)
+
+- 使用 css 变量，完成 awesome 的效果。
+- 感觉和 js 类似，把公共部分抽离。在不同的时候改变他以达到改变的目的。
+
+### Tip
+
+- 如果，在 linux 安装完成之后连不上网，可能是需要安装一个 dhcp
+
+```bash
+sudo pacman -S dhcpcd
+
+sudo systemctl enable dhcpcd
+
+reboot
+```
+
+安装并开机启动。
+
+### Share
+
+- [得到一台高效利器——最全 Linux 装机配置教程（i3 配置，中文输入法，高分辨率屏幕……）](https://www.bilibili.com/video/av57993155?from=search&seid=14141519911620504159);
+- 安利 Linux 下的软件以及常用配置。

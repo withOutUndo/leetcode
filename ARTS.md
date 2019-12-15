@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors: xuhuan
- * @LastEditTime: 2019-11-30 18:34:20
+ * @LastEditTime: 2019-12-08 10:05:43
  * @Description:
  -->
 
@@ -2951,3 +2951,57 @@ reboot
 
 - [得到一台高效利器——最全 Linux 装机配置教程（i3 配置，中文输入法，高分辨率屏幕……）](https://www.bilibili.com/video/av57993155?from=search&seid=14141519911620504159);
 - 安利 Linux 下的软件以及常用配置。
+
+## ARTS 第卅贰周（2019-12-08）
+
+### Algorithm
+
+leetCode 120.三角形最短路径总和
+
+```javascript
+var minimumTotal = function(triangle) {
+  let res = Infinity;
+  const length = triangle.length;
+  if (length === 1) {
+    return triangle[0][0];
+  }
+  for (let i = 1; i < length; i++) {
+    const arrA = triangle[i];
+    const arrB = triangle[i - 1];
+
+    for (let j = 0; j < arrA.length; j++) {
+      arrA[j] =
+        arrA[j] +
+        Math.min(
+          arrB[j - 1] === undefined ? Infinity : arrB[j - 1],
+          arrB[j] === undefined ? Infinity : arrB[j]
+        );
+
+      if (i === length - 1) {
+        res = Math.min(arrA[j], res);
+      }
+    }
+  }
+  return res;
+};
+```
+
+从顶部到底部，算出每个位置的最小结果。底部所有结果的最小结果就是解。
+
+### Review
+
+[Make Your Angular Form’s Error Messages Magically Appear](https://netbasal.com/make-your-angular-forms-error-messages-magically-appear-1e32350b7fa5)
+
+- 在Angular中使用指令以及动态组件实现form表单的错误消息展示。
+
+### Tip
+
+- 使用svg加css变量，实现一个模拟饼图。
+  1、使用svg[参考](https://www.w3cplus.com/css3/designing-simple-pie-charts-with-css.html)；
+  2、使用变量，设置不用的数值，在css里面使用计算属性。
+
+### Share
+
+- [不再 “封装” 组件](https://zhuanlan.zhihu.com/p/82021593);
+ 建议不在ui库的基础上封装组件，带来一定的便利的时候也失去了一些灵活，
+ 所以建议轻度封装，降低业务和组件的耦合。

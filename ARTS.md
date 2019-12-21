@@ -1,8 +1,8 @@
 <!--
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
- * @LastEditors: xuhuan
- * @LastEditTime: 2019-12-08 10:05:43
+ * @LastEditors  : xuhuan
+ * @LastEditTime : 2019-12-21 14:11:25
  * @Description:
  -->
 
@@ -3005,3 +3005,48 @@ var minimumTotal = function(triangle) {
 - [不再 “封装” 组件](https://zhuanlan.zhihu.com/p/82021593);
  建议不在ui库的基础上封装组件，带来一定的便利的时候也失去了一些灵活，
  所以建议轻度封装，降低业务和组件的耦合。
+
+## ARTS 第卅叁周（2019-12-15）
+
+### Algorithm
+
+leetCode 303.区域和检索-数组不可变
+
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function(nums) {
+    let sum = 0;
+    this.nums = nums.map(i => {
+        sum += i;
+        return sum;
+    })
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function(i, j) {
+    return this.nums[j] - (this.nums[i - 1] || 0);
+};
+```
+将数组累加。获取范围值的时候两个位置的数字相减。
+
+### Review
+
+[Replacements for setInterval Using requestAnimationFrame](https://css-tricks.com/snippets/javascript/replacements-setinterval-using-requestanimationframe/)
+
+- 将setInterval替换为requestAnimationFrame。
+
+### Tip
+
+- Prxoy
+  [看这里](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+
+### Share
+
+- [以中国传统的孔子和老子的思想来分析忍者代码](https://juejin.im/post/5df06050e51d4557f26e52e3);
+ 展示一些开发中错误的代码结构和写法。引以为戒。

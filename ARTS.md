@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors  : xuhuan
- * @LastEditTime : 2019-12-21 14:11:25
+ * @LastEditTime : 2019-12-22 23:26:07
  * @Description:
  -->
 
@@ -3050,3 +3050,53 @@ NumArray.prototype.sumRange = function(i, j) {
 
 - [以中国传统的孔子和老子的思想来分析忍者代码](https://juejin.im/post/5df06050e51d4557f26e52e3);
  展示一些开发中错误的代码结构和写法。引以为戒。
+
+## ARTS 第卅肆周（2019-12-21）
+
+### Algorithm
+
+leetCode 39.组合总和
+
+```javascript
+var combinationSum = function(candidates, target) {
+  let res = [];
+
+  var fn = (arr, t, i) => {
+    let ele = candidates[i];
+
+    if (t === ele) {
+      res.push([...arr, t]);
+      return;
+    }
+
+    if (t < ele || i === candidates.length) {
+      return;
+    }
+
+    fn([...arr, ele], t - ele, i);
+    fn([...arr], t, i + 1);
+  };
+
+  candidates = candidates.sort((a, b) => a - b);
+  fn([], target, 0);
+
+  return res;
+};
+```
+将数组排序，递归查找。
+
+### Review
+
+[CSS grid tutorial: 13 tips and tricks which you should know as a web developer](https://medium.com/quick-code/css-grid-cheatsheet-13-tips-and-tricks-which-you-should-know-as-a-web-developer-b4e58f5614c3)
+
+- css Grid布局。
+
+### Tip
+
+- Linux 安装完成之后没有声音处理
+安装pulseaduio和alsa-utils。设置默认的声卡以及取消静音。
+
+### Share
+
+- [我用鲁迅的金句，怼赢了90%的键盘侠和杠精](https://mp.weixin.qq.com/s/v8RgP2DM721vE7oQq0QPFQ);
+  一句话总结：勇者愤怒，抽刃向更强者；怯者愤怒，却抽刃向更弱者。

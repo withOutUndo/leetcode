@@ -2,7 +2,7 @@
  * @Author: xuhuan
  * @Date: 2019-08-21 14:04:42
  * @LastEditors  : xuhuan
- * @LastEditTime : 2019-12-22 23:26:07
+ * @LastEditTime : 2019-12-29 14:08:34
  * @Description:
  -->
 
@@ -3100,3 +3100,79 @@ var combinationSum = function(candidates, target) {
 
 - [我用鲁迅的金句，怼赢了90%的键盘侠和杠精](https://mp.weixin.qq.com/s/v8RgP2DM721vE7oQq0QPFQ);
   一句话总结：勇者愤怒，抽刃向更强者；怯者愤怒，却抽刃向更弱者。
+
+## ARTS 第卅伍周（2019-12-29）
+
+### Algorithm
+
+leetCode 171.Excel表列序号
+
+```javascript
+var titleToNumber = function(s) {
+    return s.split('').reverse().reduce((pre, cur, index) => {
+        const num = String.prototype.charCodeAt.call(cur) - 64;
+        return pre + num * 26 ** index;
+    }, 0);
+};
+```
+相当于进制转换，将字母转为数字。
+
+leetCode 547.朋友圈
+
+```javascript
+var findCircleNum = function(M) {
+  let length = M.length;
+  let res = 0;
+  let arr = new Array(length).fill(0).map((_, i) => i);
+
+  let obj = {};
+
+  const fn = item => {
+    let arr = M[item];
+    return arr
+      .map((i, index) => (i && !obj[index] ? index : null))
+      .filter(i => i !== null);
+  };
+
+  while (arr.length) {
+    let list = [arr[0]];
+    while (list.length) {
+      let i = list.shift();
+      obj[i] = true;
+      let index = arr.findIndex(item => item === i);
+      if (index > -1) {
+        arr.splice(index, 1);
+      }
+      let nextArr = fn(i);
+      list.push(...nextArr);
+    }
+
+    res++;
+  }
+
+  return res;
+};
+```
+BFS搜索，搜索完了还有没有经过的点就增加计数。
+
+### Review
+
+- [7 Uses for CSS Custom Properties](https://css-irl.info/7-uses-for-css-custom-properties/)
+
+几个关于CSS变量的使用场景。拒绝重复，变数抽离。
+
+### Tip
+
+- Vim 几种案件映射的模式
+
+inoremap就只在插入(insert)模式下生效
+
+vnoremap只在visual模式下生效
+
+nnoremap就在normal模式下(狂按esc后的模式)生效
+
+### Share
+
+- [github 404 页面动效实现](https://github.com/daimingyu/github-404-page);
+  
+  视觉差效果，随着鼠标的移动，不同的块产生不同的位置偏移。

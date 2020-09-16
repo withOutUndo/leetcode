@@ -39,7 +39,7 @@ plugins:
 
 ## Lodash for **async**
 
-<slide :class="size-50">
+<slide>
 
 > #### 用于 JavaScript 的 ReactiveX 库。
 > RxJS 是使用 **Observables** 的响应式编程的库，它使编写异步或基于回调的代码更容易。
@@ -286,9 +286,11 @@ B----> 2
 
 ## RxJS 最佳实践
 
-<slide>
+<slide :class="aligncenter">
 
 ### 取消订阅
+
+<slide>
 
 ``` javascript
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -325,7 +327,7 @@ destroy$ = new Subject();
 ngOnInit() {
     interval(200).pipe(
         take(20),
-        takeWhile(_ => this.isDestroy),
+        takeWhile(_ => !this.isDestroy),
         takeUntil(this.destroy$),
     ).subscribe(res => {
         console.log(res);
@@ -339,6 +341,97 @@ ngOnDestroy() {
 }
 ```
 {.animated.fadeInUp}
+
+<slide :class="aligncenter">
+
+## async 管道
+
+<slide>
+:::flexblock
+
+``` javascript
+
+treeNode$ = new Subject<string>();
+page$ = new BehaviorSubject<number>(1);
+pageSize$ = new BehaviorSubject<number>(10);
+personData$: Observable<Array<any>>;
+column$: Observable<any>;
+pageData$: Observable<any>;
+isDestroy: boolean;
+constructor(private httpClient: HttpClient) {}
+
+ngOnInit(): void {
+
+  const page$ = this.page$.pipe(
+    distinctUntilChanged(),
+  );
+
+  const pageSize$ = this.page$.pipe(
+    distinctUntilChanged(),
+  );
+
+  const data$: Observable<any> = combineLatest([this.treeNode$, page$, pageSize$])
+    .pipe(
+      takeWhile(_ => !this.isDestroy),
+      map(([areaInfoId, page, pageSize]) => {
+        return {
+          areaInfoId,
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+        };
+      }),
+      tap(_ => this.loading = true),
+      switchMap((params) =>
+        this.httpClient.get<any>(
+          Api.api.statistics.getAccountsCountByAreaInfo,
+          { params }
+        )
+      ),
+      tap(() => this.loading = false),
+      share()
+    );
+
+  this.personData$ = data$.pipe(
+    map((res) => res?.data?.data || []),
+    // TODO
+  );
+
+  this.column$ = data$.pipe(
+    // TODO
+  );
+
+  this.pageData$ = data$.pipe(
+    map(res => res.data)
+  );
+```
+
+-----
+
+``` html
+<nz-table #basicTable1 [nzData]="tableData$ | async" nzShowSizeChanger
+  [nzTotal]="(pageData$ | async)?.totalCount"
+  [nzPageSize]="(pageData$ | async)?.pageSize"
+  [nzPageIndex]="(pageData$ | async)?.page"
+  (nzQueryParams)="onQueryParamsChange1($event)">
+  <thead>
+    <ng-container *ngFor="let item of column$ | async; let i = index">
+      <tr>
+        <ng-container *ngFor="let col of item">
+          <th [attr.colspan]="col.colSpan || 1">{{col.name || col}}</th>
+        </ng-container>
+        
+      </tr>
+    </ng-container>
+    
+  </thead>
+  <tbody>
+    <tr class="tbodysy" *ngFor="let data of basicTable1.data; let i = index">
+      <td *ngFor="let item of data">{{ item }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+```
+
 
 <slide>
 
@@ -368,6 +461,18 @@ pokemon$
   )
   .subscribe(stats => saveToPokedex(stats));
 ```
+
+<slide>
+
+>当然，我们学习RxJS，并不是因为RxJS是⼀项炫酷的技术，也不是因 为RxJS是⼀个最新的技术。在技术的道路上，如果只是追逐“炫酷”和“最 新”，肯定是要吃苦头的，因为这是舍本逐末。
+>
+>我们学习和应⽤RxJS，是因为RxJS的的确确能够帮助我们解决问题， ⽽且这些问题长期以来⼀直在困扰我们，没有好的解决办法，这些问题包括：
+>
+>如何控制⼤量代码的复杂度; 如何保持代码可读； 如何处理异步操作。
+>
+>RxJS的价值在于提供了⼀种不⼀样的编程⽅式，能够解决很多困扰我 们开发者的问题。 
+>
+>==《深入浅出RxJS》==
 
 <slide :class="aligncenter">
 

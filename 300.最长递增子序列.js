@@ -9,20 +9,29 @@
  * @param {number[]} nums
  * @return {number}
  */
-var lengthOfLIS = function(nums) {
-
+var lengthOfLIS = function (nums) {
   const length = nums.length;
-  let dp = nums.map(_ => 1);
+  let dp = nums.map((_) => 1);
+  let arr = [0];
   dp[0] = 1;
   let res = 1;
-  for (let index = 1; index < length; index++) {
+  for (let index = 0; index < length; index++) {
     const item = nums[index];
-    for (let j = index - 1; j >= 0; j--) {
-      if (nums[j] < item) {
-        dp[index] = Math.max(dp[j] + 1, dp[index]);
+
+    let l = 0,
+      r = arr.length - 1;
+    while (l < r) {
+      let mid = (l + r + 1) >> 1;
+      if (arr[mid] < item) {
+        l = mid;
+      } else {
+        r = mid - 1;
       }
     }
-    
+
+    dp[index] = r + 1;
+    arr[dp[index]] = Math.min(arr[dp[index]] || Infinity, item);
+
     res = Math.max(res, dp[index]);
   }
 
@@ -30,3 +39,4 @@ var lengthOfLIS = function(nums) {
 };
 // @lc code=end
 
+lengthOfLIS([0,0,0,0,0]);

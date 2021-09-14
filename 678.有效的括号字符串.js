@@ -1,52 +1,57 @@
+/*
+ * @lc app=leetcode.cn id=678 lang=javascript
+ *
+ * [678] 有效的括号字符串
+ */
+
+// @lc code=start
 /**
  * @param {string} s
  * @return {boolean}
  */
-var checkValidString = function(s) {
-  let stack = [];
-  let star = [];
-  s.split("").map((i, index) => {
-    if (i === "(") {
-      stack.unshift({ value: i, index });
-    }
-    if (i === ")") {
-      if (stack[0] && stack[0].value === "(") {
-        stack.shift();
-      } else {
-        stack.unshift({ value: i, index });
+var checkValidString = function (s) {
+  let length = s.length;
+  let leftStack = [];
+  let startStack = [];
+
+  for (let i = 0; i < length; i++) {
+    const j = s[i];
+
+    switch (j) {
+      case "(":
+        leftStack.unshift(i);
+        break;
+      case ")": {
+        if (leftStack.length) {
+          leftStack.shift();
+          break;
+        }
+        if (startStack.length) {
+          startStack.shift();
+          break;
+        }
+        return false;
       }
+      case "*":
+        startStack.unshift(i);
+        break;
     }
-
-    if (i === "*") {
-      star.push({ value: i, index });
-    }
-  });
-
-  if (stack.length === 0) {
-    return true;
   }
 
-  return stack
-  .filter(i => i.value !== "*")
-  .map((i, index) => {
-    let aLen = star.length;
-    // console.log(star);
-    if (aLen) {
-      if (i.value === "(" && star[aLen - 1].index > i.index) {
-        star.pop();
-        return null;
-      }
-      if (i.value === ")" && star[0].index < i.index) {
-        star.shift();
-        return null;
-      }
+  while (leftStack.length) {
+    const left = leftStack.shift();
+    const start = startStack.shift();
+    if (left > start) {
+      return false;
     }
-    return i;
-  }).reduce((pre, cur) => {
-    return pre && !cur;
-  }, true);
-};
+  }
 
-console.log(checkValidString("(*))"));
-console.log(checkValidString("(*)))"));
-console.log(checkValidString("(*)())"));
+  return leftStack.length === 0;
+};
+// @lc code=end
+
+const a = checkValidString(
+  "(((((*(()((((*((**(((()()*)()()()*((((**)())*)*)))))))(())(()))())((*()()(((()((()*(())*(()**)()(())"
+);
+
+console.log(a);

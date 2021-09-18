@@ -3,62 +3,35 @@
  * @return {boolean}
  */
 var isValidSudoku = function (board) {
-  let res = true;
-
-  let check = (i) => {
-    const num = i.filter((i) => i > 0 && i < 10);
-    return [...new Set(num)].length === num.length;
-  };
-
-  board.map((i) => (res = res && check(i)));
-
-  if (!res) {
-    return false;
-  }
+  let col = new Array(9).fill(0),
+    row = new Array(9).fill(0),
+    area = new Array(9).fill(0);
 
   for (let i = 0; i < 9; i++) {
-    res =
-      res &&
-      check([
-        board[0][i],
-        board[1][i],
-        board[2][i],
-        board[3][i],
-        board[4][i],
-        board[5][i],
-        board[6][i],
-        board[7][i],
-        board[8][i],
-      ]);
+    for (let j = 0; j < 9; j++) {
+      const c = board[i][j];
 
-    if (!res) {
-      return false;
-    }
-  }
-
-  for (let i = 0; i < 9; i = i + 3) {
-    for (let j = 0; j < 9; j = j + 3) {
-      res =
-        res &&
-        check([
-          board[i][j],
-          board[i][j+ 1],
-          board[i][j + 2],
-          board[i + 1][j],
-          board[i + 1][j + 1],
-          board[i + 1][j + 2],
-          board[i + 2][j],
-          board[i + 2][j + 1],
-          board[i + 2][j + 2],
-        ]);
-
-      if (res === false) {
-        return false;
+      if (c === ".") {
+        continue;
       }
+
+      let m = (i / 3) | 0;
+      let n = (j / 3) | 0;
+      const o = m * 3 + n;
+      if (
+        ((col[i] >> c) & 1) == 1 ||
+        ((row[j] >> c) & 1) == 1 ||
+        ((area[o] >> c) & 1) == 1
+      )
+        return false;
+
+      col[i] |= 1 << c;
+      row[j] |= 1 << c;
+      area[o] |= 1 << c;
     }
   }
 
-  return res;
+  return true;
 };
 
 console.log(

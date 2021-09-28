@@ -23,6 +23,7 @@ var pathSum = function (root, targetSum) {
     return 0;
   }
   let res = 0;
+  // 前缀和数组
   const sum = [];
   const stack = [
     {
@@ -44,6 +45,9 @@ var pathSum = function (root, targetSum) {
       level,
     } = stack.pop();
 
+    /**
+     * 出栈的时候更新sum数组。并且在数组中查找是否有targetSum的值
+     */
     sum.length = level + 1;
     const num = (sum[level - 1] || 0) + val;
     sum[level] = num;
@@ -68,3 +72,7 @@ var pathSum = function (root, targetSum) {
   return res;
 };
 // @lc code=end
+
+/**
+ * 前缀和加DFS
+ */

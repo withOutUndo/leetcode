@@ -22,48 +22,46 @@ var pathSum = function (root, targetSum) {
   if (!root) {
     return 0;
   }
-  let res = root.val === targetSum ? 1 : 0;
+  let res = 0;
+  const sum = [];
   const stack = [
     {
       node: root,
-      sum: root.val,
-      sumMap: {
-        [root.val]: 1,
-      },
+      level: 0,
     },
   ];
 
-  const joinStack = (node, sum, sumMap) => {
-    const val = sum + node.val;
-    if (sumMap[val - targetSum]) {
-      res += sumMap[val - targetSum];
-    }
-    if (val === targetSum) {
-      res++;
-    }
+  const joinStack = (node, level) => {
     stack.push({
       node,
-      sum: val,
-      sumMap: {
-        ...sumMap,
-        [val]: (sumMap[val] || 0) + 1,
-      },
+      level: level + 1,
     });
   };
 
   while (stack.length) {
     const {
-      node: { left, right },
-      sum,
-      sumMap,
+      node: { left, right, val },
+      level,
     } = stack.pop();
 
+    sum.length = level + 1;
+    const num = (sum[level - 1] || 0) + val;
+    sum[level] = num;
+    if (num === targetSum) {
+      res++;
+    }
+    for (let i = 0; i < level; i++) {
+      if (num - sum[i] === targetSum) {
+        res++;
+      }
+    }
+
     if (left) {
-      joinStack(left, sum, sumMap);
+      joinStack(left, level);
     }
 
     if (right) {
-      joinStack(right, sum, sumMap);
+      joinStack(right, level);
     }
   }
 

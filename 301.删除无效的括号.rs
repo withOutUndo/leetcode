@@ -5,10 +5,10 @@
  */
 
 // @lc code=start
-use std::{cmp::Ordering, collections::HashMap, convert::TryInto};
+use std::{cmp::Ordering, collections::HashMap, str};
 pub struct StackItem {
     index: usize,
-    str: String,
+    str: u8,
     l_count: i32,
     r_count: i32,
 }
@@ -20,11 +20,12 @@ impl Solution {
         let len = s.len();
         let mut res: Vec<String> = vec![];
         let mut map = HashMap::<String, bool>::new();
+        let s = s.as_bytes();
 
-        for i in s.chars() {
+        for i in s.iter() {
             match i {
-                '(' => l_count += 1,
-                ')' => match l_count.cmp(&0) {
+                b'(' => l_count += 1,
+                b')' => match l_count.cmp(&0) {
                     Ordering::Greater => l_count -= 1,
                     _ => r_count += 1,
                 },
@@ -37,30 +38,27 @@ impl Solution {
         let push_to_stack = |stack: &mut Vec<StackItem>, index: usize, l_count, r_count| {
             stack.push(StackItem {
                 index,
-                str: match s.get(index..index + 1) {
-                    Some(a) => a.to_string(),
-                    _ => "".to_string(),
-                },
+                str: s[index],
                 l_count,
                 r_count,
             });
 
-            match s.get(index..index + 1) {
-                Some("(") => {
+            match s[index] {
+                b'(' => {
                     if l_count > 0 {
                         stack.push(StackItem {
                             index,
-                            str: "".to_string(),
+                            str: 0,
                             l_count: l_count - 1,
                             r_count,
                         })
                     }
                 }
-                Some(")") => {
+                b')' => {
                     if r_count > 0 {
                         stack.push(StackItem {
                             index,
-                            str: "".to_string(),
+                            str: 0,
                             l_count,
                             r_count: r_count - 1,
                         })
@@ -72,7 +70,7 @@ impl Solution {
 
         push_to_stack(&mut stack, 0, l_count, r_count);
 
-        let mut cache: Vec<String> = vec![];
+        let mut cache: Vec<u8> = vec![];
         while let Some(StackItem {
             index,
             str,
@@ -81,13 +79,14 @@ impl Solution {
         }) = stack.pop()
         {
             unsafe {
-                cache.set_len(index.try_into().unwrap());
+                cache.set_len(index);
             }
-            cache.push(str.clone());
+            cache.push(str);
 
             if index == len - 1 {
                 if l_count == 0 && r_count == 0 && Solution::check_valid(&cache) {
-                    let string = cache.join("");
+                    let cache: Vec<u8> = cache.iter().filter(|i| *i > &0).map(|i| *i).collect();
+                    let string = str::from_utf8(&cache).unwrap().to_string();
                     match map.get(&string) {
                         None => {
                             map.insert(string.clone(), true);
@@ -104,12 +103,12 @@ impl Solution {
         res
     }
 
-    fn check_valid(vec: &Vec<String>) -> bool {
+    fn check_valid(vec: &Vec<u8>) -> bool {
         let mut l = 0;
         for i in vec.iter() {
-            match i.as_str() {
-                "(" => l += 1,
-                ")" => {
+            match i {
+                b'(' => l += 1,
+                b')' => {
                     if l > 0 {
                         l -= 1
                     } else {
